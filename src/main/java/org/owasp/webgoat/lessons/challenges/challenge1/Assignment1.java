@@ -1,10 +1,11 @@
 package org.owasp.webgoat.lessons.challenges.challenge1;
 
+import static org.owasp.webgoat.lessons.challenges.SolutionConstants.PASSWORD;
+
 import lombok.RequiredArgsConstructor;
 import org.owasp.webgoat.container.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.container.assignments.AttackResult;
 import org.owasp.webgoat.lessons.challenges.Flags;
-import org.owasp.webgoat.lessons.challenges.SolutionConstants;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,7 +46,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class Assignment1 extends AssignmentEndpoint {
 
   private final Flags flags;
-  private final SolutionConstants solutionConstants;
 
   @PostMapping("/challenge/1")
   @ResponseBody
@@ -53,8 +53,7 @@ public class Assignment1 extends AssignmentEndpoint {
     boolean ipAddressKnown = true;
     boolean passwordCorrect =
         "admin".equals(username)
-            && solutionConstants
-                .getPassword()
+            && PASSWORD
                 .replace("1234", String.format("%04d", ImageServlet.PINCODE))
                 .equals(password);
     if (passwordCorrect && ipAddressKnown) {
@@ -65,4 +64,3 @@ public class Assignment1 extends AssignmentEndpoint {
     return failed(this).build();
   }
 }
-
